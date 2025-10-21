@@ -42,14 +42,14 @@
     .progress-bar div {
       height: 20px;
       background: #4caf50; /* Verde para progreso */
-      width: 60%; /* Progreso inicial */
+      width: 0%; /* Progreso inicial */
     }
 
-    .missions, .store, .stats {
+    .missions, .store, .stats, .punishments {
       margin-top: 20px;
     }
 
-    .mission, .reward, .stat {
+    .mission, .reward, .punishment, .stat {
       display: flex;
       justify-content: space-between;
       padding: 10px;
@@ -84,12 +84,13 @@
   <div class="container">
     <div class="header">
       <h1>Gamificación de Vida</h1>
-      <p>Avatar: 🧙‍♂️ Nivel 2</p>
+      <p>Avatar: 🧙‍♂️ Nivel 1</p>
       <div class="progress-bar">
-        <div style="width: 60%;"></div>
+        <div id="progress-bar" style="width: 0%;"></div>
       </div>
-      <p>XP: 60/100</p>
-      <p>Racha: 3 días</p>
+      <p>XP: <span id="xp">0</span>/300</p>
+      <p>Pechereques: <span id="coins">0</span></p>
+      <p>Racha: <span id="streak">0</span> días</p>
     </div>
 
     <div class="missions">
@@ -99,9 +100,27 @@
         <button class="button" onclick="completeMission(5, 5)">Completar</button>
       </div>
       <div class="mission">
-        <span>Regresar de pasear a Chocorrol 🐕</span>
-        <button class="button" onclick="completeMission(10, 5)">Completar</button>
+        <span>Tender la cama 🛏️</span>
+        <button class="button" onclick="completeMission(5, 5)">Completar</button>
       </div>
+      <div class="mission">
+        <span>Desayunar antes de las 8:00 a.m. 🍳</span>
+        <button class="button" onclick="completeMission(5, 0)">Completar</button>
+      </div>
+      <!-- Agrega aquí todas las misiones diarias del Excel -->
+    </div>
+
+    <div class="punishments">
+      <h2>Castigos</h2>
+      <div class="punishment">
+        <span>Fumar 🚬 (-25 HP)</span>
+        <button class="button" onclick="applyPunishment(25)">Marcar</button>
+      </div>
+      <div class="punishment">
+        <span>Tomar 🍺 (-20 HP)</span>
+        <button class="button" onclick="applyPunishment(20)">Marcar</button>
+      </div>
+      <!-- Agrega aquí todos los castigos del Excel -->
     </div>
 
     <div class="store">
@@ -114,43 +133,70 @@
         <span>Comida libre 🍔 (500 pechereques)</span>
         <button class="button" onclick="buyReward(500)">Comprar</button>
       </div>
+      <!-- Agrega aquí todas las recompensas de la tienda del Excel -->
     </div>
 
     <div class="stats">
       <h2>Estadísticas</h2>
       <div class="stat">
         <span>Misiones más cumplidas:</span>
-        <span>Levantarse temprano</span>
+        <span id="top-mission">Ninguna</span>
       </div>
       <div class="stat">
         <span>XP Ganada:</span>
-        <span>120</span>
+        <span id="total-xp">0</span>
       </div>
       <div class="stat">
         <span>Pechereques Ganados:</span>
-        <span>300</span>
+        <span id="total-coins">0</span>
       </div>
       <div class="stat">
         <span>Pechereques Gastados:</span>
-        <span>200</span>
+        <span id="coins-spent">0</span>
       </div>
     </div>
   </div>
 
   <script>
-    let xp = 60;
-    let coins = 300;
+    let xp = 0;
+    let coins = 0;
+    let streak = 0;
+    let totalXp = 0;
+    let totalCoins = 0;
+    let coinsSpent = 0;
 
     function completeMission(xpGained, coinsGained) {
       xp += xpGained;
       coins += coinsGained;
+      totalXp += xpGained;
+      totalCoins += coinsGained;
+
+      document.getElementById("xp").textContent = xp;
+      document.getElementById("coins").textContent = coins;
+      document.getElementById("total-xp").textContent = totalXp;
+      document.getElementById("total-coins").textContent = totalCoins;
+
+      if (xp >= 300) {
+        alert("¡Subiste de nivel!");
+        xp = 0; // Reinicia XP al subir de nivel
+      }
+
       alert(`¡Misión completada! Ganaste ${xpGained} XP y ${coinsGained} pechereques.`);
-      // Aquí puedes actualizar la interfaz dinámicamente
+    }
+
+    function applyPunishment(hpLost) {
+      alert(`¡Castigo aplicado! Perdiste ${hpLost} HP.`);
+      // Aquí puedes agregar lógica para restar HP y actualizar la interfaz
     }
 
     function buyReward(cost) {
       if (coins >= cost) {
         coins -= cost;
+        coinsSpent += cost;
+
+        document.getElementById("coins").textContent = coins;
+        document.getElementById("coins-spent").textContent = coinsSpent;
+
         alert(`¡Recompensa comprada! Te quedan ${coins} pechereques.`);
       } else {
         alert("No tienes suficientes pechereques.");
