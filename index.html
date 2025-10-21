@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gamificación de Vida</title>
+  <style>
+    /* Estilo general */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #2c2f33; /* Fondo oscuro estilo medieval */
+      color: #f5f5f5; /* Texto claro */
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #3c3f44; /* Fondo de la tarjeta */
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #f5c518; /* Dorado medieval */
+    }
+
+    .header {
+      text-align: center;
+    }
+
+    .progress-bar {
+      background: #555;
+      border-radius: 20px;
+      overflow: hidden;
+      margin: 10px 0;
+    }
+
+    .progress-bar div {
+      height: 20px;
+      background: #4caf50; /* Verde para progreso */
+      width: 60%; /* Progreso inicial */
+    }
+
+    .missions, .store, .stats {
+      margin-top: 20px;
+    }
+
+    .mission, .reward, .stat {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      border-bottom: 1px solid #444;
+    }
+
+    .button {
+      background: #4caf50;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .button:disabled {
+      background: #ccc;
+    }
+
+    .stats {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 2px solid #555;
+    }
+
+    .stats h2 {
+      color: #f5c518;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Gamificación de Vida</h1>
+      <p>Avatar: 🧙‍♂️ Nivel 2</p>
+      <div class="progress-bar">
+        <div style="width: 60%;"></div>
+      </div>
+      <p>XP: 60/100</p>
+      <p>Racha: 3 días</p>
+    </div>
+
+    <div class="missions">
+      <h2>Misiones Diarias</h2>
+      <div class="mission">
+        <span>Levantarse antes de las 7:30 a.m. ⏰</span>
+        <button class="button" onclick="completeMission(5, 5)">Completar</button>
+      </div>
+      <div class="mission">
+        <span>Regresar de pasear a Chocorrol 🐕</span>
+        <button class="button" onclick="completeMission(10, 5)">Completar</button>
+      </div>
+    </div>
+
+    <div class="store">
+      <h2>Tienda</h2>
+      <div class="reward">
+        <span>Cerveza el fin de semana 🍺 (200 pechereques)</span>
+        <button class="button" onclick="buyReward(200)">Comprar</button>
+      </div>
+      <div class="reward">
+        <span>Comida libre 🍔 (500 pechereques)</span>
+        <button class="button" onclick="buyReward(500)">Comprar</button>
+      </div>
+    </div>
+
+    <div class="stats">
+      <h2>Estadísticas</h2>
+      <div class="stat">
+        <span>Misiones más cumplidas:</span>
+        <span>Levantarse temprano</span>
+      </div>
+      <div class="stat">
+        <span>XP Ganada:</span>
+        <span>120</span>
+      </div>
+      <div class="stat">
+        <span>Pechereques Ganados:</span>
+        <span>300</span>
+      </div>
+      <div class="stat">
+        <span>Pechereques Gastados:</span>
+        <span>200</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let xp = 60;
+    let coins = 300;
+
+    function completeMission(xpGained, coinsGained) {
+      xp += xpGained;
+      coins += coinsGained;
+      alert(`¡Misión completada! Ganaste ${xpGained} XP y ${coinsGained} pechereques.`);
+      // Aquí puedes actualizar la interfaz dinámicamente
+    }
+
+    function buyReward(cost) {
+      if (coins >= cost) {
+        coins -= cost;
+        alert(`¡Recompensa comprada! Te quedan ${coins} pechereques.`);
+      } else {
+        alert("No tienes suficientes pechereques.");
+      }
+    }
+  </script>
+</body>
+</html>
